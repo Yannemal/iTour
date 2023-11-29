@@ -10,7 +10,10 @@ import SwiftData
 
 struct EditDestinationView: View {
     //DATA:
+    @Environment(\.modelContext) private var modelContext
+    // private to prevent conflict w another @Environment modelContext in contentView
     @Bindable var destination: Destination
+  
     @State private var newSightName = ""
     
     var body: some View {
@@ -35,7 +38,9 @@ struct EditDestinationView: View {
             Section("Sights") {
                 ForEach(destination.sights) { sight in
                     Text(sight.name)
-                }
+                } // end forEach Section > a Section is a diff kind of List ?
+                .onDelete(perform: deleteSights)
+                
                 HStack {
                     TextField("Add a new sight in \(destination.name)", text: $newSightName)
                     
@@ -48,7 +53,7 @@ struct EditDestinationView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     // Methods:
-    
+    // CRUD - Create
     func addSight() {
         guard newSightName.isEmpty == false  else { return }
         // if you get by the guard then do this:
@@ -58,6 +63,14 @@ struct EditDestinationView: View {
             newSightName = ""
             // after adding sight to destination reset newSightName to an empty String
         }
+    }
+  
+    func deleteSights(_ indexSet: IndexSet) {
+        for index in indexSet {
+            let sight = destination.sights[index]
+            modelContext.delete(sight)
+        }
+        destination.sights.remove(atOffsets: indexSet)
     }
     
 }
