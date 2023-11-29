@@ -3,7 +3,7 @@
 //  iTour  - CRUD > Update
 //  SwiftData by Example book > PAul Hudson
 //  Student yannemal on 26/11/2023.
-
+//  this is the Edit View when you add or want to change a location
 
 import SwiftUI
 import SwiftData
@@ -11,6 +11,7 @@ import SwiftData
 struct EditDestinationView: View {
     //DATA:
     @Bindable var destination: Destination
+    @State private var newSightName = ""
     
     var body: some View {
         //someVIEW:
@@ -30,12 +31,35 @@ struct EditDestinationView: View {
                 }
                 .pickerStyle(.segmented)
             }
+            // add new section for Sights
+            Section("Sights") {
+                ForEach(destination.sights) { sight in
+                    Text(sight.name)
+                }
+                HStack {
+                    TextField("Add a new sight in \(destination.name)", text: $newSightName)
+                    
+                    Button("Add", action: addSight)
+                }
+            }
         } // end form
         .navigationTitle("Edit Destination")
         
         .navigationBarTitleDisplayMode(.inline)
-        
     }
+    // Methods:
+    
+    func addSight() {
+        guard newSightName.isEmpty == false  else { return }
+        // if you get by the guard then do this:
+        withAnimation {
+            let sight = Sight(name: newSightName)
+            destination.sights.append(sight)
+            newSightName = ""
+            // after adding sight to destination reset newSightName to an empty String
+        }
+    }
+    
 }
 
 #Preview {
