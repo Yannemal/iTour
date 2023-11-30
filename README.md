@@ -6,4 +6,5 @@
 
  ![iTours first look](https://github.com/Yannemal/iTour/assets/56878180/c7817516-c5f8-4a26-ad2a-615ffcd3a59b)
 
- 
+custom Menu in toolbar with two Pickers trigger Predicates and Sort Descriptors for filtering on both name/priority/date and upcoming dates
+![filter dates plus name or priority](https://github.com/Yannemal/iTour/assets/56878180/86d9b9ec-feb2-4785-9d7a-b713b4c7702d)
