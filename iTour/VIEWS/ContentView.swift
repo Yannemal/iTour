@@ -15,17 +15,19 @@ struct ContentView: View {
    
    // var destinations: [Destination]
     @State private var path = [Destination]()
-    @State private var sortOrder = SortDescriptor(\Destination.name)
+    @State private var sortOrder = [SortDescriptor(\Destination.name)]
     // default sortOrder by name alphabetically
     @State private var searchText = ""
     
+    @State private var minimumDate = Date.distantPast
+    @State private var currentDate = Date.now
     
     var body: some View {
     // someView
         
         NavigationStack(path: $path) {
         // LIST
-            DestinationListingView(sort: sortOrder, searchString: searchText)
+            DestinationListingView(sort: sortOrder, searchString: searchText, minimumDate: minimumDate)
             .navigationTitle("iTour")
             .navigationDestination(for: Destination.self, destination: EditDestinationView.init)
             .searchable(text: $searchText)
@@ -34,11 +36,25 @@ struct ContentView: View {
                 // Button("addSamples", action: addSamples)
                 Menu("Sort", systemImage: "arrow.up.arrow.down") {
                     Picker("Sort", selection: $sortOrder) {
-                        Text("Name").tag(SortDescriptor(\Destination.name))
+                        Text("Name").tag([
+                            SortDescriptor(\Destination.name),
+                            SortDescriptor(\Destination.date)
+                            ])
                         
-                        Text("Priority").tag(SortDescriptor(\Destination.priority, order: .reverse))
+                        Text("Priority").tag([SortDescriptor(\Destination.priority, order: .reverse),
+                                              SortDescriptor(\Destination.name)
+                                              ])
                         
-                        Text("Date").tag(SortDescriptor(\Destination.date))
+                        Text("Date").tag([SortDescriptor(\Destination.date),
+                                          SortDescriptor(\Destination.priority),
+                                          SortDescriptor(\Destination.name)
+                                          ])
+                    }
+                    .pickerStyle(.inline)
+
+                    Picker("Filter", selection: $minimumDate) {
+                        Text("Show all destinations").tag(Date.distantPast)
+                        Text("Show upcoming destinations").tag(currentDate)
                     }
                     .pickerStyle(.inline)
                     // this prevents an extra menu thing appearing in the toolbar

@@ -36,22 +36,22 @@ struct DestinationListingView: View {
         } // endList
     }
     // METHODS:
-    init(sort: SortDescriptor<Destination>, searchString: String) {
+    init(sort: [SortDescriptor<Destination>], searchString: String, minimumDate: Date) {
         //        _destinations = Query(sort: [sort])
         // this custom init with _ causes a refresh of the view when a new sort: SortDescriptor is passed in
         // let now = Date.now
         _destinations = Query(filter: #Predicate {
         if searchString.isEmpty {
-            return true
-            // returns all Destinations
+            return $0.date > minimumDate
+            // returns all Destinations greater than Date.distantPast which is all destinations
         } else {
-            return $0.name.localizedStandardContains(searchString)
+            return $0.name.localizedStandardContains(searchString) && $0.date > minimumDate
             // will ignore diacritic and is case insensitive
-            // will filter our destinations on whats in search bar
+            // will filter our destinations on whats in search bar AND check for date larger than min date
         }
        
         //    $0.date > now
-        }, sort: [sort])
+        }, sort: sort)
     }
     
     // swipe to delete  CRUD - D
@@ -64,5 +64,5 @@ struct DestinationListingView: View {
 }
 
 #Preview {
-    DestinationListingView(sort: SortDescriptor(\Destination.name), searchString: "")
+    DestinationListingView(sort: [SortDescriptor(\Destination.name)], searchString: "", minimumDate: .distantPast)
 }

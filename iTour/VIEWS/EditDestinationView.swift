@@ -55,7 +55,11 @@ struct EditDestinationView: View {
     // Methods:
     // CRUD - Create
     func addSight() {
-        guard newSightName.isEmpty == false  else { return }
+        guard newSightName.isEmpty == false  else {
+            // set warning pop up or suggestions here
+            return 
+            
+        }
         // if you get by the guard then do this:
         withAnimation {
             let sight = Sight(name: newSightName)
