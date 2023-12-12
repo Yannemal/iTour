@@ -18,7 +18,7 @@ struct ContentView: View {
     @State private var sortOrder = [SortDescriptor(\Destination.name),
                                     SortDescriptor(\Destination.date)
                                     ]
-    // default sortOrder by name alphabetically, an [aarray of sortdescriptor ] so we can have tie breakers (see tag picker)
+    // default sortOrder by name alphabetically, an [Array of sortdescriptor ] so we can have tie breakers (see tag picker)
     @State private var searchText = ""
     
     @State private var minimumDate = Date.distantPast

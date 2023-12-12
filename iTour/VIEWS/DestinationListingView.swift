@@ -31,6 +31,7 @@ struct DestinationListingView: View {
                             .font(.headline)
                         
                         Text(destination.date.formatted(date: .long, time: .shortened))
+                            .font(.caption2)
                         // each Row has a name and a date
                     }
                 }
@@ -47,9 +48,13 @@ struct DestinationListingView: View {
         if searchString.isEmpty {
             return $0.date > minimumDate
             
-            // returns all Destinations greater than Date.distantPast which is all destinations
+            // returns all Destinations greater than Date.distantPast which is ALL destinations
         } else {
-            return $0.name.localizedStandardContains(searchString) && $0.date > minimumDate
+            return $0.date > minimumDate &&
+                 ($0.name.localizedStandardContains(searchString) ||
+                     $0.sights.contains {
+                        $0.name.localizedStandardContains(searchString)
+                           })
             // will ignore diacritic and is case insensitive
             // will filter our destinations on whats in search bar AND check for date larger than min date
         }

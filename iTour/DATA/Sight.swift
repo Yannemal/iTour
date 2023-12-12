@@ -12,7 +12,7 @@ import SwiftData
 class Sight {
     var name: String
     
-    //Relationship inverse
+    //Relationship inverse .. One-to-One (hence not an Array)
     var destination: Destination?
     
     init(name: String) {

@@ -1,7 +1,7 @@
 //
 //  Destination.swift
 //  iTour
-//  SwiftData by Example book > PAul Hudson
+//  SwiftData by Example book > Paul Hudson
 //  Student yannemal on 26/11/2023.
 //
 
@@ -17,6 +17,10 @@ class Destination {
     // relationships: One-to-Many => hence an Array of Sights
     @Relationship(deleteRule: .cascade, inverse: \Sight.destination)
     var sights = [Sight]()
+    // let user add pictures
+    @Attribute(.externalStorage) var image: Data?
+    
+    
     
     init(
         // defaults set up
