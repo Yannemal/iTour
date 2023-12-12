@@ -15,12 +15,18 @@ struct ContentView: View {
    
    // var destinations: [Destination]
     @State private var path = [Destination]()
-    @State private var sortOrder = [SortDescriptor(\Destination.name)]
-    // default sortOrder by name alphabetically
+    @State private var sortOrder = [SortDescriptor(\Destination.name),
+                                    SortDescriptor(\Destination.date)
+                                    ]
+    // default sortOrder by name alphabetically, an [aarray of sortdescriptor ] so we can have tie breakers (see tag picker)
     @State private var searchText = ""
     
     @State private var minimumDate = Date.distantPast
-    @State private var currentDate = Date.now
+    let currentDate = Date.now
+    @State var maximumDate = Date.distantFuture
+    // either show past or future or all trips :
+//    @State private var showingFutureTrips = false
+//    @State private var showingPasttrips = false
     
     var body: some View {
     // someView
@@ -53,10 +59,16 @@ struct ContentView: View {
                     .pickerStyle(.inline)
 
                     Picker("Filter", selection: $minimumDate) {
-                        Text("Show all destinations").tag(Date.distantPast)
+                        Text("Show all destinations").tag(Date.distantPast) 
                         Text("Show upcoming destinations").tag(currentDate)
+
                     }
-                    .pickerStyle(.inline)
+                     .pickerStyle(.inline)
+                    
+                    Picker("Filter", selection: $maximumDate) {
+                         Text("Show only travels past").tag(currentDate)
+                    }
+                     .pickerStyle(.inline)
                     // this prevents an extra menu thing appearing in the toolbar
                 } // end Menu
                                  

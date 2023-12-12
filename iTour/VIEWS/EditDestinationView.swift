@@ -74,7 +74,8 @@ struct EditDestinationView: View {
             let sight = destination.sights[index]
             modelContext.delete(sight)
         }
-        destination.sights.remove(atOffsets: indexSet)
+        // ⬇️ only necessary when inverse relationships have not been added yet:
+        // destination.sights.remove(atOffsets: indexSet)
     }
     
 }

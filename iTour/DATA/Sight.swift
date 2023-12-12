@@ -12,6 +12,9 @@ import SwiftData
 class Sight {
     var name: String
     
+    //Relationship inverse
+    var destination: Destination?
+    
     init(name: String) {
         self.name = name
     }

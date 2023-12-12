@@ -14,8 +14,8 @@ class Destination {
     var details: String
     var date: Date
     var priority: Int
-    // relationships:
-    @Relationship(deleteRule: .cascade)
+    // relationships: One-to-Many => hence an Array of Sights
+    @Relationship(deleteRule: .cascade, inverse: \Sight.destination)
     var sights = [Sight]()
     
     init(
